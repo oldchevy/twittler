@@ -1,10 +1,10 @@
-div {
+div.one-tweet {
 	border: 2px solid #5C6BC0;
 	margin: 20px 30px;
 	padding: 10px;
 	border-radius: 5px;
 	background-color: #9E9E9E;
-	width: 500px;
+	width: 700px;
 }
 
 body {
