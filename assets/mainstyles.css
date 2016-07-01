@@ -1,17 +1,26 @@
 .one-tweet {
 	border: 2px solid #5C6BC0;
-	margin: 20px 30px;
 	padding: 10px;
 	border-radius: 5px;
 	background-color: rgba(158,158,158,0.7);
-	width: 700px;
+}
+
+.tweet-box {
+	margin: 30px 30px;
 }
 
 body {
-	background-color: #90A4AE;
+	background-image: url("sean_tahoe_007.jpg");
 	font-family: Arial;
 }
 
+#total-wrap {
+
+	margin: 5px 200px;
+	min-height: 1000px;
+	border-radius: 5px;
+	background-color: rgba(221, 221, 221, 0.5)
+}
 
 
 .time-stamp {

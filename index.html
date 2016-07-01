@@ -4,15 +4,17 @@
     <title>Tweeter!</title>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
-    <script src="moment.js"></script>
-    <link rel="stylesheet" type="text/css" href="mainstyles.css">
+    <script src="assets/moment.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/mainstyles.css">
   </head>
   <body>
-    <div class='header'>
-      <h1>your tweeter feed</h1>
-      <button id='home'>Home</button>
-    </div>
-    <div class='all-tweets'>
+    <div id='total-wrap'>
+      <div class='header'>
+        <h1>your tweeter feed</h1>
+        <button id='home'>Home</button>
+      </div>
+      <div class='all-tweets'>
+      </div>
     </div>
     <script>
 
@@ -30,7 +32,8 @@
             var tweet = streams.home[index];
             
             //Set up the jQuery objects to add
-            var $tweet = $('<div class="one-tweet"></div>');
+            var $tweetBox = $('<div class="tweet-box"></div>')
+            var $tweet = $('<span class="one-tweet"></span>');
             var $timeStamp = $('<span class="time-stamp" id="time-stamp-'+index+'"></span>');
             var $user = $('<a class="user '+tweet.user+'"></a>');
             
@@ -41,10 +44,10 @@
             $tweet.text(': ' + tweet.message);
             
             //Add the tweet
-            $body.prepend($tweet);
-            //$tweet.prependTo($body);
-            $('.one-tweet').first().append($timeStamp);
-            $('.one-tweet').first().prepend($user);
+            $body.prepend($tweetBox);
+            $('.tweet-box').first().append($tweet);
+            $('.tweet-box').first().append($timeStamp);
+            $('.tweet-box').first().find('.one-tweet').prepend($user);
 
             //Makes sure no tweet is added twice
             index++;
@@ -76,7 +79,7 @@
 
         //Listening for home clicks, and then only adding new tweets
         $('#home').on('click',function(){
-          $('.one-tweet').slideDown();
+          $('.tweet-box').slideDown();
           $('.header').find('h1').text('your tweeter feed');
         });
 
@@ -84,8 +87,8 @@
         $('.all-tweets').on('click','a',function(){
 
           var username = $(this).attr('class').split(" ")[1]; //Grabbing the username
-          $('.one-tweet').slideUp();
-          $('.'+username).closest('.one-tweet').slideDown();
+          $('.tweet-box').slideUp();
+          $('.'+username).closest('.tweet-box').slideDown();
           $('.header').find('h1').text(username+"'s tweets");
 
         });
