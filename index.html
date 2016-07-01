@@ -24,6 +24,7 @@
 
 
 
+
         //The function to grab tweets that haven't been rendered on the page yet
         function getNewTweets(){
           while(index < streams.home.length){
@@ -32,10 +33,10 @@
             var tweet = streams.home[index];
             
             //Set up the jQuery objects to add
-            if(username === 'global'){
+            if(username === 'global' || username === tweet.user){
               var $tweetBox = $('<div class="tweet-box"></div>');
             }
-            else if (username !== tweet.user){
+            else{
               var $tweetBox = $('<div class="tweet-box hidden"></div>');
             }
             var $tweet = $('<span class="one-tweet"></span>');
@@ -59,6 +60,8 @@
           }
         }
 
+
+
         //This function runs through each tweet and updates it's relative posting time
         //using moment
         function updateTimes(){
@@ -69,10 +72,16 @@
           });
         }
 
+
+
+
         //Initially populates feed, setting index to 0
         var index = 0; 
         var username = 'global';
         getNewTweets();
+
+
+
 
         //Defines the refresh function to call itself every 1s, then initializes
         var scheduleNextUpdate = function(){
@@ -82,16 +91,22 @@
         };
         scheduleNextUpdate();
 
-        //Listening for home clicks, and then only adding new tweets
+
+
+
+        //Listening for home clicks, and then repopulating list
         $('#home').on('click',function(){
           $('.tweet-box').slideDown();
           $('.header').find('h1').text('your tweeter feed');
           username = "global";
         });
 
+
+
+
+
         //Listening for clicks on a username
         $('.all-tweets').on('click','a',function(){
-
           username = $(this).attr('class').split(" ")[1]; //Grabbing the username
           $('.tweet-box').slideUp();
           $('.'+username).closest('.tweet-box').slideDown();
@@ -99,20 +114,21 @@
 
         });
 
-        function toggleHighlight() {
 
+
+        //mousover events for styling purposes
+        function toggleHighlight() {
           $(this).toggleClass('highlight');
           if($(this).hasClass('highlight'))
             $(this).animate({'left': '5px'});
           else
             $(this).animate({'left': '-5px'});
-
         }
 
         function toggleUnderline(){
           $(this).toggleClass('underline');
         }
-        //mousover events for styling purposes
+        
         $('.all-tweets').on('mouseenter','.one-tweet', toggleHighlight);
         $('.all-tweets').on('mouseleave','.one-tweet', toggleHighlight);
         $('.all-tweets').on('mouseenter','.user', toggleUnderline);
