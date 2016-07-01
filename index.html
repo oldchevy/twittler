@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Tweeter!</title>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <script src="moment.js"></script>
@@ -8,7 +9,7 @@
   </head>
   <body>
     <div class='header'>
-      <h1>Your Tweeter Feed</h1>
+      <h1>your tweeter feed</h1>
       <button id='home'>Home</button>
     </div>
     <div class='all-tweets'>
@@ -40,7 +41,8 @@
             $tweet.text(': ' + tweet.message);
             
             //Add the tweet
-            $tweet.prependTo($body);
+            $body.prepend($tweet);
+            //$tweet.prependTo($body);
             $('.one-tweet').first().append($timeStamp);
             $('.one-tweet').first().prepend($user);
 
@@ -75,6 +77,7 @@
         //Listening for home clicks, and then only adding new tweets
         $('#home').on('click',function(){
           $('.one-tweet').slideDown();
+          $('.header').find('h1').text('your tweeter feed');
         });
 
         //Listening for clicks on a username
@@ -83,8 +86,28 @@
           var username = $(this).attr('class').split(" ")[1]; //Grabbing the username
           $('.one-tweet').slideUp();
           $('.'+username).closest('.one-tweet').slideDown();
+          $('.header').find('h1').text(username+"'s tweets");
 
         });
+
+        function toggleHighlight() {
+
+          $(this).toggleClass('highlight');
+          if($(this).hasClass('highlight'))
+            $(this).animate({'left': '5px'});
+          else
+            $(this).animate({'left': '-5px'});
+
+        }
+
+        function toggleUnderline(){
+          $(this).toggleClass('underline');
+        }
+        //mousover events for styling purposes
+        $('.all-tweets').on('mouseenter','.one-tweet', toggleHighlight);
+        $('.all-tweets').on('mouseleave','.one-tweet', toggleHighlight);
+        $('.all-tweets').on('mouseenter','.user', toggleUnderline);
+        $('.all-tweets').on('mouseleave','.user', toggleUnderline);
 
       });
 

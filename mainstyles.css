@@ -1,17 +1,32 @@
-div.one-tweet {
+.one-tweet {
 	border: 2px solid #5C6BC0;
 	margin: 20px 30px;
 	padding: 10px;
 	border-radius: 5px;
-	background-color: #9E9E9E;
+	background-color: rgba(158,158,158,0.7);
 	width: 700px;
 }
 
 body {
 	background-color: #90A4AE;
+	font-family: Arial;
 }
+
+
 
 .time-stamp {
 
 	float: right;
+}
+
+.highlight {
+	background-color: rgba(128, 128, 128, 0.7);
+}
+
+.underline{
+	text-decoration: underline;
+	font-weight: bold;
+}
+.header {
+	text-align: center;
 }
