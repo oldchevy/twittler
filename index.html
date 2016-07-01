@@ -32,7 +32,12 @@
             var tweet = streams.home[index];
             
             //Set up the jQuery objects to add
-            var $tweetBox = $('<div class="tweet-box"></div>')
+            if(username === 'global'){
+              var $tweetBox = $('<div class="tweet-box"></div>');
+            }
+            else if (username !== tweet.user){
+              var $tweetBox = $('<div class="tweet-box hidden"></div>');
+            }
             var $tweet = $('<span class="one-tweet"></span>');
             var $timeStamp = $('<span class="time-stamp" id="time-stamp-'+index+'"></span>');
             var $user = $('<a class="user '+tweet.user+'"></a>');
@@ -64,9 +69,9 @@
           });
         }
 
-        
         //Initially populates feed, setting index to 0
         var index = 0; 
+        var username = 'global';
         getNewTweets();
 
         //Defines the refresh function to call itself every 1s, then initializes
@@ -81,12 +86,13 @@
         $('#home').on('click',function(){
           $('.tweet-box').slideDown();
           $('.header').find('h1').text('your tweeter feed');
+          username = "global";
         });
 
         //Listening for clicks on a username
         $('.all-tweets').on('click','a',function(){
 
-          var username = $(this).attr('class').split(" ")[1]; //Grabbing the username
+          username = $(this).attr('class').split(" ")[1]; //Grabbing the username
           $('.tweet-box').slideUp();
           $('.'+username).closest('.tweet-box').slideDown();
           $('.header').find('h1').text(username+"'s tweets");
