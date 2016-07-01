@@ -9,7 +9,7 @@
   <body>
     <div class='header'>
       <h1>Your Tweeter Feed</h1>
-      <button id='refresh'>Home</button>
+      <button id='home'>Home</button>
     </div>
     <div class='all-tweets'>
     </div>
@@ -18,6 +18,8 @@
       $(document).ready(function(){
         var $body = $('body').find('.all-tweets');
         $body.html('');
+
+
 
         //The function to grab tweets that haven't been rendered on the page yet
         function getNewTweets(){
@@ -70,9 +72,18 @@
         };
         scheduleNextUpdate();
 
-        //Listening for refresh clicks, and then only adding new tweets
-        $('#refresh').on('click',function(){
-          getNewTweets();
+        //Listening for home clicks, and then only adding new tweets
+        $('#home').on('click',function(){
+          $('.one-tweet').slideDown();
+        });
+
+        //Listening for clicks on a username
+        $('.all-tweets').on('click','a',function(){
+
+          var username = $(this).attr('class').split(" ")[1]; //Grabbing the username
+          $('.one-tweet').slideUp();
+          $('.'+username).closest('.one-tweet').slideDown();
+
         });
 
       });
