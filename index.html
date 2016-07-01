@@ -9,7 +9,7 @@
   <body>
     <div class='header'>
       <h1>Your Tweeter Feed</h1>
-      <button id='refresh'>Refresh</button>
+      <button id='refresh'>Home</button>
     </div>
     <div class='all-tweets'>
     </div>
@@ -19,23 +19,58 @@
         var $body = $('body').find('.all-tweets');
         $body.html('');
 
+        //The function to grab tweets that haven't been rendered on the page yet
         function getNewTweets(){
           while(index < streams.home.length){
+            
+            //Alias for current tweet
             var tweet = streams.home[index];
+            
+            //Set up the jQuery objects to add
             var $tweet = $('<div class="one-tweet"></div>');
-            var time=moment(tweet.created_at);
-            //moment.js date wrapper
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ': '+time.fromNow());
+            var $timeStamp = $('<span class="time-stamp" id="time-stamp-'+index+'"></span>');
+            var $user = $('<a class="user '+tweet.user+'"></a>');
+            
+            //Create the desired text in each object
+            tweet.time = moment(tweet.created_at); //moment.js date wrapper
+            $timeStamp.text(tweet.time.fromNow()); //moment.js comparison method
+            $user.text('@' + tweet.user);
+            $tweet.text(': ' + tweet.message);
+            
+            //Add the tweet
             $tweet.prependTo($body);
+            $('.one-tweet').first().append($timeStamp);
+            $('.one-tweet').first().prepend($user);
+
+            //Makes sure no tweet is added twice
             index++;
           }
         }
+
+        //This function runs through each tweet and updates it's relative posting time
+        //using moment
+        function updateTimes(){
+          streams.home.forEach(function(tweet,index){
+            var id = '#time-stamp-'+index;
+            var elapsed = tweet.time.fromNow();
+            $(id).text(elapsed);
+          });
+        }
+
         
+        //Initially populates feed, setting index to 0
         var index = 0; 
-        //Initially populates feed
         getNewTweets();
 
-        //Listening for refresh clicks, and then only adding new ones
+        //Defines the refresh function to call itself every 1s, then initializes
+        var scheduleNextUpdate = function(){
+          getNewTweets();
+          updateTimes();
+          setTimeout(scheduleNextUpdate, 1000);
+        };
+        scheduleNextUpdate();
+
+        //Listening for refresh clicks, and then only adding new tweets
         $('#refresh').on('click',function(){
           getNewTweets();
         });

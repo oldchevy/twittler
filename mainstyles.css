@@ -10,3 +10,8 @@ div.one-tweet {
 body {
 	background-color: #90A4AE;
 }
+
+.time-stamp {
+
+	float: right;
+}
